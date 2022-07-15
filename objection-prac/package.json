@@ -1,0 +1,19 @@
+{
+  "name": "objection-prac",
+  "version": "2.0.0",
+  "main": "app.js",
+  "scripts": {
+    "migrate": "knex migrate:latest",
+    "start": "npm run migrate && node app"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "knex": "^0.14.6",
+    "objection": "^1.6.6",
+    "sqlite3": "^4.0.4"
+  }
+}

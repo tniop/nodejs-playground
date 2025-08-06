@@ -1,10 +1,13 @@
 function processJob(seconds) {
-  console.time(`timer-${seconds}`);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    if (!Number.isInteger(seconds) || seconds <= 0) {
+      return reject(`Error: '${seconds}' is not a natural number.`);
+    }
+
+    console.time(`timer-${seconds}`);
     setTimeout(() => {
-      console.log(`${seconds}s task completed`);
       console.timeEnd(`timer-${seconds}`);
-      resolve();
+      resolve(`${seconds}s task completed`);
     }, seconds * 1000);
   });
 }
@@ -12,14 +15,44 @@ function processJob(seconds) {
 function run() {
   console.time('total');
 
-  const job1 = processJob(5);
-  const job2 = processJob(10);
-  const job3 = processJob(3);
+  let completed = 0;
 
-  Promise.all([job1, job2, job3])
-    .then(() => {
+  const done = () => {
+    completed++;
+    if (completed === 3) {
       console.log('--------------------');
       console.timeEnd('total');
+    }
+  };
+
+  processJob(5)
+    .then((message) => {
+      console.log(`- ${message}`);
+      done();
+    })
+    .catch((error) => {
+      console.error(error);
+      done();
+    });
+
+  processJob(10)
+    .then((message) => {
+      console.log(`- ${message}`);
+      done();
+    })
+    .catch((error) => {
+      console.error(error);
+      done();
+    });
+
+  processJob(3)
+    .then((message) => {
+      console.log(`- ${message}`);
+      done();
+    })
+    .catch((error) => {
+      console.error(error);
+      done();
     });
 }
 

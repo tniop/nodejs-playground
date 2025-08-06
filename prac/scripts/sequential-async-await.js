@@ -1,10 +1,13 @@
 function processJob(seconds) {
-  console.time(`timer-${seconds}`);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    if (!Number.isInteger(seconds) || seconds <= 0) {
+      return reject(`Error: '${seconds}' is not a natural number.`);
+    }
+
+    console.time(`timer-${seconds}`);
     setTimeout(() => {
-      console.log(`${seconds}s task completed`);
       console.timeEnd(`timer-${seconds}`);
-      resolve();
+      resolve(`${seconds}s task completed`);
     }, seconds * 1000);
   });
 }
@@ -12,12 +15,21 @@ function processJob(seconds) {
 async function run() {
   console.time('total');
 
-  await processJob(5);
-  await processJob(10);
-  await processJob(3);
+  try {
+    const message1 = await processJob(5);
+    console.log(`- ${message1}`);
 
-  console.log('--------------------');
-  console.timeEnd('total');
+    const message2 = await processJob(10);
+    console.log(`- ${message2}`);
+
+    const message3 = await processJob(3);
+    console.log(`- ${message3}`);
+
+    console.log('--------------------');
+    console.timeEnd('total');
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 run();

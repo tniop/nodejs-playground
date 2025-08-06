@@ -1,9 +1,13 @@
 function processJob(seconds, callback) {
+  if (!Number.isInteger(seconds) || seconds <= 0) {
+    callback(`Error: '${seconds}' is not a natural number.`, null);
+    return;
+  }
+
   console.time(`timer-${seconds}`);
   setTimeout(() => {
-    console.log(`${seconds}s task completed`);
     console.timeEnd(`timer-${seconds}`);
-    callback();
+    callback(null, `${seconds}s task completed`);
   }, seconds * 1000);
 }
 
@@ -18,11 +22,34 @@ function run() {
       console.log('--------------------');
       console.timeEnd('total');
     }
-  }
+  };
 
-  processJob(5, done);
-  processJob(10, done);
-  processJob(3, done);
+  processJob(5, (error, message) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log(`- ${message}`);
+    done();
+  });
+
+  processJob(10, (error, message) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log(`- ${message}`);
+    done();
+  });
+  
+  processJob(3, (error, message) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log(`- ${message}`);
+    done();
+  });
 }
 
 run();

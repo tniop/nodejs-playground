@@ -15,44 +15,20 @@ function processJob (seconds) {
 function run () {
   console.time('total')
 
-  let completed = 0
+  const jobs = [processJob(5), processJob(10), processJob(3)]
 
-  const done = () => {
-    completed++
-    if (completed === 3) {
+  Promise.all(jobs.map(p => p.then(message => {
+    console.log(`- ${message}`)
+    return message
+  })))
+    .then(() => {
       console.log('--------------------')
       console.timeEnd('total')
-    }
-  }
-
-  processJob(5)
-    .then((message) => {
-      console.log(`- ${message}`)
-      done()
     })
     .catch((error) => {
       console.error(error)
-      done()
-    })
-
-  processJob(10)
-    .then((message) => {
-      console.log(`- ${message}`)
-      done()
-    })
-    .catch((error) => {
-      console.error(error)
-      done()
-    })
-
-  processJob(3)
-    .then((message) => {
-      console.log(`- ${message}`)
-      done()
-    })
-    .catch((error) => {
-      console.error(error)
-      done()
+      console.log('--------------------')
+      console.timeEnd('total')
     })
 }
 

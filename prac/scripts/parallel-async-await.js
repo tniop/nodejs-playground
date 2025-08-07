@@ -1,7 +1,7 @@
 function processJob (seconds) {
   return new Promise((resolve, reject) => {
     if (!Number.isInteger(seconds) || seconds <= 0) {
-      return reject(new Error(`Error: '${seconds}' is not a natural number.`))
+      return reject(new Error(`'${seconds}' is not a natural number.`))
     }
 
     console.time(`timer-${seconds}`)
@@ -15,15 +15,19 @@ function processJob (seconds) {
 async function run () {
   console.time('total')
 
-  const jobs = [processJob(5), processJob(10), processJob(3)]
+  try {
+    const jobs = [processJob(-1), processJob(10), processJob(3)]
 
-  await Promise.all(jobs.map(p => p.then(message => {
-    console.log(`- ${message}`)
-    return message
-  })))
+    await Promise.all(jobs.map(p => p.then(message => {
+      console.log(`- ${message}`)
+      return message
+    })))
 
-  console.log('--------------------')
-  console.timeEnd('total')
+    console.log('--------------------')
+    console.timeEnd('total')
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 run()

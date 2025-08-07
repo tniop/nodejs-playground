@@ -1,6 +1,6 @@
 function processJob (seconds, callback) {
   if (!Number.isInteger(seconds) || seconds <= 0) {
-    callback(`Error: '${seconds}' is not a natural number.`, null)
+    callback(new Error(`'${seconds}' is not a natural number.`, null))
     return
   }
 

@@ -1,7 +1,7 @@
 function processJob (seconds) {
   return new Promise((resolve, reject) => {
     if (!Number.isInteger(seconds) || seconds <= 0) {
-      return reject(new Error(`Error: '${seconds}' is not a natural number.`))
+      return reject(new Error(`'${seconds}' is not a natural number.`))
     }
 
     console.time(`timer-${seconds}`)

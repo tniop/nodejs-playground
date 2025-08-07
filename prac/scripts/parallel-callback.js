@@ -1,6 +1,9 @@
+import ApiError from '../libs/api-error.js'
+
 function processJob (seconds, callback) {
   if (!Number.isInteger(seconds) || seconds <= 0) {
-    callback(new Error(`'${seconds}' is not a natural number.`, null))
+    const apiError = ApiError.BAD_REQUEST(new Error(`'${seconds}' is not a natural number.`))
+    callback(apiError, null)
     return
   }
 
@@ -26,7 +29,7 @@ function run () {
 
   processJob(5, (error, message) => {
     if (error) {
-      console.log(error)
+      console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
       return
     }
     console.log(`- ${message}`)
@@ -35,7 +38,7 @@ function run () {
 
   processJob(10, (error, message) => {
     if (error) {
-      console.log(error)
+      console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
       return
     }
     console.log(`- ${message}`)
@@ -44,7 +47,7 @@ function run () {
 
   processJob(3, (error, message) => {
     if (error) {
-      console.log(error)
+      console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
       return
     }
     console.log(`- ${message}`)

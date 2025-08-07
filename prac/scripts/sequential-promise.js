@@ -1,7 +1,9 @@
+import ApiError from '../libs/api-error.js'
+
 function processJob (seconds) {
   return new Promise((resolve, reject) => {
     if (!Number.isInteger(seconds) || seconds <= 0) {
-      return reject(new Error(`'${seconds}' is not a natural number.`))
+      return reject(ApiError.BAD_REQUEST(new Error(`'${seconds}' is not a natural number.`)))
     }
 
     console.time(`timer-${seconds}`)
@@ -30,7 +32,7 @@ function run () {
       console.timeEnd('total')
     })
     .catch((error) => {
-      console.error(error)
+      console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
     })
 }
 

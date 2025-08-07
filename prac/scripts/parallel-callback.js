@@ -1,55 +1,55 @@
-function processJob(seconds, callback) {
+function processJob (seconds, callback) {
   if (!Number.isInteger(seconds) || seconds <= 0) {
-    callback(`Error: '${seconds}' is not a natural number.`, null);
-    return;
+    callback(`Error: '${seconds}' is not a natural number.`, null)
+    return
   }
 
-  console.time(`timer-${seconds}`);
+  console.time(`timer-${seconds}`)
   setTimeout(() => {
-    console.timeEnd(`timer-${seconds}`);
-    callback(null, `${seconds}s task completed`);
-  }, seconds * 1000);
+    console.timeEnd(`timer-${seconds}`)
+    callback(null, `${seconds}s task completed`)
+  }, seconds * 1000)
 }
 
-function run() {
-  console.time('total');
+function run () {
+  console.time('total')
 
-  let completed = 0;
+  let completed = 0
 
   const done = () => {
-    completed++;
+    completed++
     if (completed === 3) {
-      console.log('--------------------');
-      console.timeEnd('total');
+      console.log('--------------------')
+      console.timeEnd('total')
     }
-  };
+  }
 
   processJob(5, (error, message) => {
     if (error) {
-      console.log(error);
-      return;
+      console.log(error)
+      return
     }
-    console.log(`- ${message}`);
-    done();
-  });
+    console.log(`- ${message}`)
+    done()
+  })
 
   processJob(10, (error, message) => {
     if (error) {
-      console.log(error);
-      return;
+      console.log(error)
+      return
     }
-    console.log(`- ${message}`);
-    done();
-  });
-  
+    console.log(`- ${message}`)
+    done()
+  })
+
   processJob(3, (error, message) => {
     if (error) {
-      console.log(error);
-      return;
+      console.log(error)
+      return
     }
-    console.log(`- ${message}`);
-    done();
-  });
+    console.log(`- ${message}`)
+    done()
+  })
 }
 
-run();
+run()

@@ -1,4 +1,5 @@
 import ApiError from '../libs/api-error.js'
+import async from 'async'
 
 function processJob (seconds, callback) {
   if (!Number.isInteger(seconds) || seconds <= 0) {
@@ -17,30 +18,63 @@ function processJob (seconds, callback) {
 function run () {
   console.time('total')
 
-  processJob(5, (error, message) => {
+  // processJob(5, (error, message) => {
+  //   if (error) {
+  //     console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
+  //     return
+  //   }
+  //   console.log(`- ${message}`)
+
+  //   processJob(10, (error, message) => {
+  //     if (error) {
+  //       console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
+  //       return
+  //     }
+  //     console.log(`- ${message}`)
+
+  //     processJob(3, (error, message) => {
+  //       if (error) {
+  //         console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
+  //         return
+  //       }
+  //       console.log(`- ${message}`)
+  //       console.log('--------------------')
+  //       console.timeEnd('total')
+  //     })
+  //   })
+  // })
+
+  async.waterfall([
+    (callback) => {
+      processJob(5, (error, message) => {
+        if (error) return callback(error)
+        console.log(`- ${message}`)
+        callback(null)
+      })
+    },
+
+    (callback) => {
+      processJob(10, (error, message) => {
+        if (error) return callback(error)
+        console.log(`- ${message}`)
+        callback(null)
+      })
+    },
+
+    (callback) => {
+      processJob(3, (error, message) => {
+        if (error) return callback(error)
+        console.log(`- ${message}`)
+        callback(null)
+      })
+    }
+
+  ], (error, result) => {
     if (error) {
       console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
-      return
     }
-    console.log(`- ${message}`)
-
-    processJob(10, (error, message) => {
-      if (error) {
-        console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
-        return
-      }
-      console.log(`- ${message}`)
-
-      processJob(3, (error, message) => {
-        if (error) {
-          console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
-          return
-        }
-        console.log(`- ${message}`)
-        console.log('--------------------')
-        console.timeEnd('total')
-      })
-    })
+    console.log('--------------------')
+    console.timeEnd('total')
   })
 }
 

@@ -21,20 +21,8 @@ async function run () {
   try {
     const jobs = [processJob(5), processJob(10), processJob(3)]
 
-    // await Promise.all(jobs.map(p => p.then(message => {
-    //   console.log(`- ${message}`)
-    //   return message
-    // })))
-
-    // const results = await Promise.all(jobs)
-    // console.log(results)
-
-    const processedPromises = jobs.map(p => p.then(message => {
-      console.log(`- ${message}`)
-      return message
-    }))
-
-    await Promise.all(processedPromises)
+    const results = await Promise.all(jobs)
+    console.log(results)
 
     console.log('--------------------')
     console.timeEnd('total')

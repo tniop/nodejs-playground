@@ -20,69 +20,12 @@ function processJob (seconds, callback) {
 function run () {
   console.time('total')
 
-  // let completed = 0
-
-  // const done = () => {
-  //   completed++
-  //   if (completed === 3) {
-  //     console.log('--------------------')
-  //     console.timeEnd('total')
-  //   }
-  // }
-
-  // processJob(5, (error, message) => {
-  //   if (error) {
-  //     console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
-  //     return
-  //   }
-  //   console.log(`- ${message}`)
-  //   done()
-  // })
-
-  // processJob(10, (error, message) => {
-  //   if (error) {
-  //     console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
-  //     return
-  //   }
-  //   console.log(`- ${message}`)
-  //   done()
-  // })
-
-  // processJob(3, (error, message) => {
-  //   if (error) {
-  //     console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
-  //     return
-  //   }
-  //   console.log(`- ${message}`)
-  //   done()
-  // })
-
   async.parallel([
-    (callback) => {
-      processJob(5, (error, message) => {
-        if (error) return callback(error)
-        console.log(`- ${message}`)
-        callback(null)
-      })
-    },
-
-    (callback) => {
-      processJob(10, (error, message) => {
-        if (error) return callback(error)
-        console.log(`- ${message}`)
-        callback(null)
-      })
-    },
-
-    (callback) => {
-      processJob(3, (error, message) => {
-        if (error) return callback(error)
-        console.log(`- ${message}`)
-        callback(null)
-      })
-    }
-
-  ], (error, result) => {
+    (callback) => processJob(5, callback),
+    (callback) => processJob(10, callback),
+    (callback) => processJob(3, callback)
+  ], (error, results) => {
+    console.log(results)
     if (error) {
       Logger.error(error.message, { statusCode: error.statusCode, status: error.status })
     }

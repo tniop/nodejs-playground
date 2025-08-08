@@ -1,4 +1,5 @@
 import ApiError from '../libs/api-error.js'
+import Logger from '../libs/logger.js'
 
 function processJob (seconds) {
   if (!Number.isInteger(seconds) || seconds <= 0) {
@@ -30,7 +31,7 @@ async function run () {
     console.log('--------------------')
     console.timeEnd('total')
   } catch (error) {
-    console.log(`Error: ${error.statusCode} ${error.status} : ${error.message}`)
+    Logger.error(error.message, { statusCode: error.statusCode, status: error.status })
   }
 }
 
